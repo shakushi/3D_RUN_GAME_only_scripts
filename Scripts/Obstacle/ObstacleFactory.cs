@@ -7,16 +7,17 @@ public class ObstacleFactory : MonoBehaviour
     [SerializeField]
     public bool DisableForTest = false;
 
-    private GameObject obstacle_wide;
     private GameObject obstacle_cell;
-    private GameObject obstacle_tall;
-
     private int maxnum = 50;
     private int cnt = 0;
     private bool onCoolTime = false;
     private float coolTimeOnMove = 0.5f;
     private float coolTimeOnGoal = 3f;
-    private bool activate = true;
+    private bool activate = false;
+
+    private const float instancePosHigh = 2f;
+    private const float instancePosLow = 0.5f;
+    private const float goalPosZ = 250f;
 
     public bool Activate
     {
@@ -31,9 +32,7 @@ public class ObstacleFactory : MonoBehaviour
     void Awake()
     {
         Random.InitState(System.DateTime.Now.Millisecond);
-        obstacle_wide = (GameObject)Resources.Load("Obstacle_wide");
         obstacle_cell = (GameObject)Resources.Load("Obstacle_cell");
-        obstacle_tall = (GameObject)Resources.Load("Obstacle_tall");
     }
 
     // Update is called once per frame
@@ -43,7 +42,7 @@ public class ObstacleFactory : MonoBehaviour
         {
             return;
         }
-        if (this.transform.position.z < 211)
+        if (this.transform.position.z < goalPosZ + 15f)
         {
             int posz = Mathf.CeilToInt(this.transform.position.z);
             if (posz % 10 == 0 && !onCoolTime)
@@ -76,9 +75,9 @@ public class ObstacleFactory : MonoBehaviour
 
     private Vector3 makeRandomInput()
     {
-        //return notGoodRandam();
         int x, y, z;
 
+        //1:列に生成物なし, 2:列上部に生成, 3:列下部に生成, 4:両方に生成
         x = Random.Range(1, 5);
         y = Random.Range(1, 5);
         z = Random.Range(1, 5);
@@ -101,42 +100,19 @@ public class ObstacleFactory : MonoBehaviour
 
     private void makeObsByVec3(Vector3 input)
     {
-        if (input == new Vector3(2f, 2f, 2f))
-        {
-            makeObsBigUp();
-        }
-        else if (input == new Vector3(3f, 3f, 3f))
-        {
-            makeObsBigDown();
-        }
-        else
-        {
-            makeObsCell(input);
-        }
-    }
-
-    private void makeObsBigUp()
-    {
-        Instantiate(obstacle_wide, this.transform.position + (Vector3.up * 2), this.transform.rotation);
-    }
-    private void makeObsBigDown()
-    {
-        Instantiate(obstacle_wide, this.transform.position + (Vector3.up * 0.5f), this.transform.rotation);
-    }
-    private void makeObsCell(Vector3 input)
-    {
         switch (input.x)
         {
             case 1:
                 break;
             case 2:
-                Instantiate(obstacle_cell, this.transform.position + new Vector3(2, 2f, 0), this.transform.rotation);
+                Instantiate(obstacle_cell, this.transform.position + new Vector3(2, instancePosHigh, 0), this.transform.rotation);
                 break;
             case 3:
-                Instantiate(obstacle_cell, this.transform.position + new Vector3(2, 0.5f, 0), this.transform.rotation);
+                Instantiate(obstacle_cell, this.transform.position + new Vector3(2, instancePosLow, 0), this.transform.rotation);
                 break;
             case 4:
-                Instantiate(obstacle_tall, this.transform.position + new Vector3(2, 0.5f, 0), this.transform.rotation);
+                Instantiate(obstacle_cell, this.transform.position + new Vector3(2, instancePosHigh, 0), this.transform.rotation);
+                Instantiate(obstacle_cell, this.transform.position + new Vector3(2, instancePosLow, 0), this.transform.rotation);
                 break;
         }
         switch (input.y)
@@ -144,13 +120,14 @@ public class ObstacleFactory : MonoBehaviour
             case 1:
                 break;
             case 2:
-                Instantiate(obstacle_cell, this.transform.position + new Vector3(0, 2f, 0), this.transform.rotation);
+                Instantiate(obstacle_cell, this.transform.position + new Vector3(0, instancePosHigh, 0), this.transform.rotation);
                 break;
             case 3:
-                Instantiate(obstacle_cell, this.transform.position + new Vector3(0, 0.5f, 0), this.transform.rotation);
+                Instantiate(obstacle_cell, this.transform.position + new Vector3(0, instancePosLow, 0), this.transform.rotation);
                 break;
             case 4:
-                Instantiate(obstacle_tall, this.transform.position + new Vector3(0, 0.5f, 0), this.transform.rotation);
+                Instantiate(obstacle_cell, this.transform.position + new Vector3(0, instancePosHigh, 0), this.transform.rotation);
+                Instantiate(obstacle_cell, this.transform.position + new Vector3(0, instancePosLow, 0), this.transform.rotation);
                 break;
         }
         switch (input.z)
@@ -158,13 +135,14 @@ public class ObstacleFactory : MonoBehaviour
             case 1:
                 break;
             case 2:
-                Instantiate(obstacle_cell, this.transform.position + new Vector3(-2, 2f, 0), this.transform.rotation);
+                Instantiate(obstacle_cell, this.transform.position + new Vector3(-2, instancePosHigh, 0), this.transform.rotation);
                 break;
             case 3:
-                Instantiate(obstacle_cell, this.transform.position + new Vector3(-2, 0.5f, 0), this.transform.rotation);
+                Instantiate(obstacle_cell, this.transform.position + new Vector3(-2, instancePosLow, 0), this.transform.rotation);
                 break;
             case 4:
-                Instantiate(obstacle_tall, this.transform.position + new Vector3(-2, 0.5f, 0), this.transform.rotation);
+                Instantiate(obstacle_cell, this.transform.position + new Vector3(-2, instancePosHigh, 0), this.transform.rotation);
+                Instantiate(obstacle_cell, this.transform.position + new Vector3(-2, instancePosLow, 0), this.transform.rotation);
                 break;
         }
     }

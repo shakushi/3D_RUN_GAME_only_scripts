@@ -8,17 +8,18 @@ using UnityEngine.SceneManagement;
 
 public class GameLoopManager : MonoBehaviour
 {
-    private PlayerCtlr playerCtlr;
+    [SerializeField]
+    public PlayerCtlr playerCtlr;
+    [SerializeField]
+    public ObstacleFactory factory;
+
     private UIManager uiManager;
-    private ObstacleFactory factory;
     private bool inGame = false;
     private float startTime;
 
     private void Awake()
     {
-        playerCtlr = GameObject.Find("Player").GetComponent<PlayerCtlr>();
         uiManager = GetComponent<UIManager>();
-        factory = GameObject.Find("ObstacleFactory").GetComponent<ObstacleFactory>();
     }
 
     // Start is called before the first frame update

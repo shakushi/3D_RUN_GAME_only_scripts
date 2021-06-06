@@ -14,21 +14,29 @@ public class PlayerCtlr : MonoBehaviour
     private PlayerStateEnum pstate = PlayerStateEnum.Pause;
     private PlayerEventEnum pevent = PlayerEventEnum.None;
 
-    private const float moveSpeed = 6f;
-    private const float jumpFirstSpeed = 18f;
-    private const float jumpAcceleration = -5f;
-    private const float maxJumpHight = 2.0f;
+    /* Move settings value */
+    [SerializeField]
+    private float moveSpeed = 6f;
+    [SerializeField]
+    private float jumpFirstSpeed = 18f;
+    [SerializeField]
+    private float jumpAcceleration = -5f;
+    [SerializeField]
+    private float maxJumpHight = 2.0f;
+    [SerializeField]
+    private float laneMoveSpeed = 10f;
+    [SerializeField]
+    private float laneMoveRange = 1.8f;
 
-    private Vector3 inputdir;
-    private float currentSpeedY;
-
+    /* Animation control value(not change) */
     private const float animationTime = 0.8f;
     private const float damageTime = 1.2f;
 
+    private Vector3 inputdir;
+    private float currentSpeedY;
     private LaneMoveOrderEnum laneOrder = LaneMoveOrderEnum.None;
     private int nowlane = 0;
     private bool laneMoveEnable = true;
-
     private bool isgrounded;
     private int layerMask;
 
@@ -208,19 +216,14 @@ public class PlayerCtlr : MonoBehaviour
         deinitFlags();
     }
 
-    /* private */
-    private int _gcount = 0;
+    /* private members */
     private bool checkGrounded()
     {
-        if (character.isGrounded)
+        if(this.transform.position.y <= 0.1f)
         {
-            _gcount = 0;
             return true;
-        }
-        return (_gcount++ < 100);
-        //var ray = new Ray(this.transform.position + Vector3.up * 0.1f, Vector3.down);
-        //var tolerance = 0.3f;
-        //return Physics.Raycast(ray, tolerance, layerMask);
+        } 
+        return false;
     }
     private void initFlags()
     {
@@ -251,7 +254,7 @@ public class PlayerCtlr : MonoBehaviour
     private IEnumerator laneMoving(LaneMoveOrderEnum order)
     {
         laneMoveEnable = false;
-        float goalPosX = nowlane * 2f;
+        float goalPosX = nowlane * laneMoveRange;
         while (true)
         {
             if (Mathf.Abs(this.transform.position.x - goalPosX) < 0.2f)
@@ -262,11 +265,11 @@ public class PlayerCtlr : MonoBehaviour
             }
             if(order == LaneMoveOrderEnum.Right)
             {
-                character.Move(Vector3.right * 10f * Time.deltaTime);
+                character.Move(Vector3.right * laneMoveSpeed * Time.deltaTime);
             }
             else
             {
-                character.Move(Vector3.left * 10f * Time.deltaTime);
+                character.Move(Vector3.left * laneMoveSpeed * Time.deltaTime);
             }
             yield return null;
         }

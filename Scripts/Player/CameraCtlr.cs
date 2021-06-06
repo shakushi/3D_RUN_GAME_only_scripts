@@ -36,15 +36,6 @@ public class CameraCtlr : MonoBehaviour
 
         /* y軸移動は少し遅らせる */
         float move_y = (playerCurPos.y + cameraHigh) - this.transform.position.y;
-        //float maxy = 0.06f;
-        //if (move_y > 0 && move_y < 2.5f)
-        //{
-        //    move_y = Mathf.Min(move_y, maxy);
-        //}
-        //else if(move_y < 0 && move_y > -2.5f)
-        //{
-        //    move_y = Mathf.Max(move_y, -maxy);
-        //}
         moveDiff.y = move_y;
         
         transform.Translate(moveDiff, Space.World);

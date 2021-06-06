@@ -122,21 +122,11 @@ public class MainInputCtlr : MonoBehaviour
             playerCtlr.IPMove(input);
         }
 
-        /* Camera */
-        //float h = 0;
-        //if (Input.GetKey(KeyCode.RightArrow)) { h += 1f; }
-        //if (Input.GetKey(KeyCode.LeftArrow)) { h -= 1f; }
-        //if (h != 0)
-        //{
-        //    Debug.Log("camera:" + h);
-        //    cameraCtlr.CameraRotate(new Vector2(h, 0));
-        //}
-
     }
 
     private Vector3 getMoveDir()
     {
-        /* 今は真っ直ぐにしか進めない */
+        /* ランゲームでは真っ直ぐにしか進まない */
         return Vector3.forward;
     }
 }
