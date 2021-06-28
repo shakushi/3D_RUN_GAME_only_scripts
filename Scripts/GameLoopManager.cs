@@ -41,6 +41,7 @@ public class GameLoopManager : MonoBehaviour
         inGame = true;
         startTime = Time.time;
         playerCtlr.IPlayerGameStart();
+        uiManager.DeleteInitialUI();
         factory.Activate = true;
     }
 

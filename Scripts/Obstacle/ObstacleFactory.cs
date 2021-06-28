@@ -11,13 +11,13 @@ public class ObstacleFactory : MonoBehaviour
     private int maxnum = 50;
     private int cnt = 0;
     private bool onCoolTime = false;
-    private float coolTimeOnMove = 0.5f;
-    private float coolTimeOnGoal = 3f;
+    private float coolTimeOnMove = 1.5f;
+    private float coolTimeOnGoal = 6f;
     private bool activate = false;
 
     private const float instancePosHigh = 2f;
     private const float instancePosLow = 0.5f;
-    private const float goalPosZ = 250f;
+    private const float goalPosZ = 350f;
 
     public bool Activate
     {
@@ -50,14 +50,7 @@ public class ObstacleFactory : MonoBehaviour
                 makeObsByVec3(makeRandomInput());
                 cnt++;
                 onCoolTime = true;
-                if (posz / 10 != 21)
-                {
-                    StartCoroutine("CoolTimeOnMove");
-                }
-                else
-                {
-                    StartCoroutine("CoolTimeOnGoal");
-                }
+                StartCoroutine("CoolTimeOnMove");
             }
             transform.Translate(Vector3.forward * 10f * Time.deltaTime, Space.World);
         }

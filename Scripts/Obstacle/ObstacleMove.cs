@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObstacleMove : MonoBehaviour
 {
-    private float moveLimit = 50f;
+    private float moveLimit = 100f;
     private float speed = 5.0f;
     private float startPosZ;
 
